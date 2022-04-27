@@ -37,7 +37,7 @@ const App: React.FC = () => {
   }
 
   const nextQuestion = () => {
-    if (currentQuestion === 3) {
+    if (currentQuestion === questions.length - 1) {
       dispatch({
         type: ACTIONS.SET_CURRENT_QUESTION,
         payload: 0,
