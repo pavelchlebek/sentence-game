@@ -2,14 +2,28 @@ import './App.css';
 
 import React from 'react';
 
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { ACTIONS } from './reducers/rootReducer';
+
 const questions = ["who", "what", "where", "when"]
 
 const App: React.FC = () => {
-  const [who, setWho] = React.useState("")
-  const [what, setWhat] = React.useState("")
-  const [where, setWhere] = React.useState("")
-  const [when, setWhen] = React.useState("")
+  // data from redux store
+  const who = useSelector((state: any) => state.who)
+  const what = useSelector((state: any) => state.what)
+  const where = useSelector((state: any) => state.where)
+  const when = useSelector((state: any) => state.when)
 
+  const currentQuestion = useSelector((state: any) => state.currentQuestion)
+
+  // to dispatch actions
+  const dispatch = useDispatch()
+
+  // whether or not all questions have been answered
   let allQuestionsAnswered
   if (who && what && where && when) {
     allQuestionsAnswered = true
@@ -17,24 +31,43 @@ const App: React.FC = () => {
     allQuestionsAnswered = false
   }
 
-  const [currentQuestion, setCurrentQuestion] = React.useState(0)
-
   const nextQuestion = () => {
     if (currentQuestion === 3) {
-      setCurrentQuestion(0)
+      dispatch({
+        type: ACTIONS.SET_CURRENT_QUESTION,
+        payload: {
+          currentQuestion: 0,
+        },
+      })
     } else {
-      setCurrentQuestion((prev) => prev + 1)
+      dispatch({
+        type: ACTIONS.SET_CURRENT_QUESTION,
+        payload: {
+          currentQuestion: currentQuestion + 1,
+        },
+      })
     }
   }
 
   const previousQuestion = () => {
     if (currentQuestion === 0) {
-      setCurrentQuestion(3)
+      dispatch({
+        type: ACTIONS.SET_CURRENT_QUESTION,
+        payload: {
+          currentQuestion: 3,
+        },
+      })
     } else {
-      setCurrentQuestion((prev) => prev - 1)
+      dispatch({
+        type: ACTIONS.SET_CURRENT_QUESTION,
+        payload: {
+          currentQuestion: currentQuestion - 1,
+        },
+      })
     }
   }
 
+  // to get input element corresponding to current question
   const getInput = () => {
     if (currentQuestion === 0) {
       return (
@@ -42,7 +75,14 @@ const App: React.FC = () => {
           className="answer"
           type="text"
           value={who}
-          onChange={(e) => setWho(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: ACTIONS.SET_WHO,
+              payload: {
+                who: e.target.value,
+              },
+            })
+          }
           placeholder="your answer"
         />
       )
@@ -53,7 +93,14 @@ const App: React.FC = () => {
           className="answer"
           type="text"
           value={what}
-          onChange={(e) => setWhat(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: ACTIONS.SET_WHAT,
+              payload: {
+                what: e.target.value,
+              },
+            })
+          }
           placeholder="your answer"
         />
       )
@@ -64,7 +111,14 @@ const App: React.FC = () => {
           className="answer"
           type="text"
           value={where}
-          onChange={(e) => setWhere(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: ACTIONS.SET_WHERE,
+              payload: {
+                where: e.target.value,
+              },
+            })
+          }
           placeholder="your answer"
         />
       )
@@ -75,13 +129,21 @@ const App: React.FC = () => {
           className="answer"
           type="text"
           value={when}
-          onChange={(e) => setWhen(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: ACTIONS.SET_WHEN,
+              payload: {
+                when: e.target.value,
+              },
+            })
+          }
           placeholder="your answer"
         />
       )
     }
   }
 
+  // building output sentence
   const sentence = `${who} ${what} ${where} ${when}.`
 
   return (
