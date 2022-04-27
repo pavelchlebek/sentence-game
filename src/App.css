@@ -5,12 +5,20 @@
 .form {
   display: flex;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+}
+
+.buttons {
+  margin-bottom: 28px;
 }
 
 .question {
   margin-right: 14px;
   text-transform: capitalize;
+}
+
+button {
+  margin-right: 10px;
 }
 
 .answer {

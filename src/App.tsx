@@ -4,7 +4,7 @@ import React from 'react';
 
 const questions = ["who", "what", "where", "when"]
 
-function App() {
+const App: React.FC = () => {
   const [who, setWho] = React.useState("")
   const [what, setWhat] = React.useState("")
   const [where, setWhere] = React.useState("")
@@ -24,6 +24,14 @@ function App() {
       setCurrentQuestion(0)
     } else {
       setCurrentQuestion((prev) => prev + 1)
+    }
+  }
+
+  const previousQuestion = () => {
+    if (currentQuestion === 0) {
+      setCurrentQuestion(3)
+    } else {
+      setCurrentQuestion((prev) => prev - 1)
     }
   }
 
@@ -81,7 +89,10 @@ function App() {
       <div className="form">
         <span className="question">{`${questions[currentQuestion]}?`}</span>
         {getInput()}
-        <button onClick={nextQuestion}>Next</button>
+      </div>
+      <div className="buttons">
+        <button onClick={nextQuestion}>Next Question</button>
+        <button onClick={previousQuestion}>Previous Question</button>
       </div>
       <div className="output">
         <div className={`indicator ${who ? "answered" : "notAnswered"}`}>
