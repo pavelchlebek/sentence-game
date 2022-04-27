@@ -1,4 +1,14 @@
-const initialState = {
+import { AnyAction } from 'redux';
+
+export interface IState {
+  who: string
+  what: string
+  where: string
+  when: string
+  currentQuestion: number
+}
+
+const initialState: IState = {
   who: "",
   what: "",
   where: "",
@@ -14,32 +24,32 @@ export const ACTIONS = {
   SET_CURRENT_QUESTION: "SET_CURRENT_QUESTION",
 }
 
-export function rootReducer(state: any = initialState, action: any) {
+export function rootReducer(state: IState = initialState, action: AnyAction) {
   switch (action.type) {
     case ACTIONS.SET_WHO:
       return {
         ...state,
-        who: action.payload.who,
+        who: action.payload,
       }
     case ACTIONS.SET_WHAT:
       return {
         ...state,
-        what: action.payload.what,
+        what: action.payload,
       }
     case ACTIONS.SET_WHERE:
       return {
         ...state,
-        where: action.payload.where,
+        where: action.payload,
       }
     case ACTIONS.SET_WHEN:
       return {
         ...state,
-        when: action.payload.when,
+        when: action.payload,
       }
     case ACTIONS.SET_CURRENT_QUESTION:
       return {
         ...state,
-        currentQuestion: action.payload.currentQuestion,
+        currentQuestion: action.payload,
       }
     default:
       return state

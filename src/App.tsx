@@ -7,18 +7,23 @@ import {
   useSelector,
 } from 'react-redux';
 
-import { ACTIONS } from './reducers/rootReducer';
+import {
+  ACTIONS,
+  IState,
+} from './reducers/rootReducer';
 
 const questions = ["who", "what", "where", "when"]
 
 const App: React.FC = () => {
   // data from redux store
-  const who = useSelector((state: any) => state.who)
-  const what = useSelector((state: any) => state.what)
-  const where = useSelector((state: any) => state.where)
-  const when = useSelector((state: any) => state.when)
+  const who = useSelector<IState, IState["who"]>((state) => state.who)
+  const what = useSelector<IState, IState["what"]>((state) => state.what)
+  const where = useSelector<IState, IState["where"]>((state) => state.where)
+  const when = useSelector<IState, IState["when"]>((state) => state.when)
 
-  const currentQuestion = useSelector((state: any) => state.currentQuestion)
+  const currentQuestion = useSelector<IState, IState["currentQuestion"]>(
+    (state) => state.currentQuestion
+  )
 
   // to dispatch actions
   const dispatch = useDispatch()
@@ -35,16 +40,12 @@ const App: React.FC = () => {
     if (currentQuestion === 3) {
       dispatch({
         type: ACTIONS.SET_CURRENT_QUESTION,
-        payload: {
-          currentQuestion: 0,
-        },
+        payload: 0,
       })
     } else {
       dispatch({
         type: ACTIONS.SET_CURRENT_QUESTION,
-        payload: {
-          currentQuestion: currentQuestion + 1,
-        },
+        payload: currentQuestion + 1,
       })
     }
   }
@@ -53,16 +54,12 @@ const App: React.FC = () => {
     if (currentQuestion === 0) {
       dispatch({
         type: ACTIONS.SET_CURRENT_QUESTION,
-        payload: {
-          currentQuestion: 3,
-        },
+        payload: 3,
       })
     } else {
       dispatch({
         type: ACTIONS.SET_CURRENT_QUESTION,
-        payload: {
-          currentQuestion: currentQuestion - 1,
-        },
+        payload: currentQuestion - 1,
       })
     }
   }
@@ -78,9 +75,7 @@ const App: React.FC = () => {
           onChange={(e) =>
             dispatch({
               type: ACTIONS.SET_WHO,
-              payload: {
-                who: e.target.value,
-              },
+              payload: e.target.value,
             })
           }
           placeholder="your answer"
@@ -96,9 +91,7 @@ const App: React.FC = () => {
           onChange={(e) =>
             dispatch({
               type: ACTIONS.SET_WHAT,
-              payload: {
-                what: e.target.value,
-              },
+              payload: e.target.value,
             })
           }
           placeholder="your answer"
@@ -114,9 +107,7 @@ const App: React.FC = () => {
           onChange={(e) =>
             dispatch({
               type: ACTIONS.SET_WHERE,
-              payload: {
-                where: e.target.value,
-              },
+              payload: e.target.value,
             })
           }
           placeholder="your answer"
@@ -132,9 +123,7 @@ const App: React.FC = () => {
           onChange={(e) =>
             dispatch({
               type: ACTIONS.SET_WHEN,
-              payload: {
-                when: e.target.value,
-              },
+              payload: e.target.value,
             })
           }
           placeholder="your answer"
