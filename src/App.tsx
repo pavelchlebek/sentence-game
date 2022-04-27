@@ -64,82 +64,33 @@ const App: React.FC = () => {
     }
   }
 
-  // to get input element corresponding to current question
-  const getInput = () => {
-    if (currentQuestion === 0) {
-      return (
-        <input
-          className="answer"
-          type="text"
-          value={who}
-          onChange={(e) =>
-            dispatch({
-              type: ACTIONS.SET_WHO,
-              payload: e.target.value,
-            })
-          }
-          placeholder="your answer"
-        />
-      )
-    }
-    if (currentQuestion === 1) {
-      return (
-        <input
-          className="answer"
-          type="text"
-          value={what}
-          onChange={(e) =>
-            dispatch({
-              type: ACTIONS.SET_WHAT,
-              payload: e.target.value,
-            })
-          }
-          placeholder="your answer"
-        />
-      )
-    }
-    if (currentQuestion === 2) {
-      return (
-        <input
-          className="answer"
-          type="text"
-          value={where}
-          onChange={(e) =>
-            dispatch({
-              type: ACTIONS.SET_WHERE,
-              payload: e.target.value,
-            })
-          }
-          placeholder="your answer"
-        />
-      )
-    }
-    if (currentQuestion === 3) {
-      return (
-        <input
-          className="answer"
-          type="text"
-          value={when}
-          onChange={(e) =>
-            dispatch({
-              type: ACTIONS.SET_WHEN,
-              payload: e.target.value,
-            })
-          }
-          placeholder="your answer"
-        />
-      )
-    }
-  }
-
   // building output sentence
   const sentence = `${who} ${what} ${where} ${when}.`
+
+  const currentQuestionString = questions[currentQuestion]
+
+  const currentQuestionValue = useSelector(
+    (state: IState) => state[currentQuestionString as keyof typeof state]
+  )
+
+  const currentActionType = `SET_${currentQuestionString.toUpperCase()}`
 
   return (
     <div className="app">
       <div className="form">
         <span className="question">{`${questions[currentQuestion]}?`}</span>
-        {getInput()}
+        <input
+          className="answer"
+          type="text"
+          value={currentQuestionValue}
+          onChange={(e) =>
+            dispatch({
+              type: currentActionType,
+              payload: e.target.value,
+            })
+          }
+          placeholder="your answer"
+        />
       </div>
       <div className="buttons">
         <button onClick={nextQuestion}>Next Question</button>
